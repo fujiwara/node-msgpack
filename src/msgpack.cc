@@ -178,7 +178,7 @@ v8_to_msgpack(Handle<Value> v8obj, msgpack_object *mo, msgpack_zone *mz,
 
 
         mo->type = MSGPACK_OBJECT_RAW;
-        mo->via.raw.ptr = Buffer::Data(buf);
+        mo->via.raw.size = Buffer::Length(buf);
         mo->via.raw.ptr = Buffer::Data(buf);
     } else {
         Local<Object> o = v8obj->ToObject();
