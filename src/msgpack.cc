@@ -108,16 +108,16 @@ class MsgpackCycle {
 #define DBG_PRINT_BUF(buf, name) \
     do { \
         fprintf(stderr, "Buffer %s has %lu bytes:\n", \
-            (name), (Buffer::Length(buf)) \
+            (name), Buffer::Length(buf) \
         ); \
-        for (uint32_t i = 0; i * 16 < (Buffern:Length(buf)); i++) { \
+        for (uint32_t i = 0; i * 16 < Buffer::Length(buf); i++) { \
             fprintf(stderr, "  "); \
             for (uint32_t ii = 0; \
-                 ii < 16 && (i * 16) + ii < (Buffern::Length(buf); \
+                 ii < 16 && (i * 16) + ii < Buffer::Length(buf); \
                  ii++) { \
                 fprintf(stderr, "%s%2.2hhx", \
                     (ii > 0 && (ii % 2 == 0)) ? " " : "", \
-                    (Buffer::Data(buf))[i * 16 + ii] \
+                    Buffer::Data(buf)[i * 16 + ii] \
                 ); \
             } \
             fprintf(stderr, "\n"); \
@@ -174,7 +174,8 @@ v8_to_msgpack(Handle<Value> v8obj, msgpack_object *mo, msgpack_zone *mz,
             v8_to_msgpack(v, &mo->via.array.ptr[i], mz, mc);
         }
     } else if (Buffer::HasInstance(v8obj)) {
-        Buffer *buf = ObjectWrap::Unwrap<Buffer>(v8obj->ToObject());
+        Local<Object> buf = v8obj->ToObject();
+
 
         mo->type = MSGPACK_OBJECT_RAW;
         mo->via.raw.size = Buffer::Length(buf);
@@ -311,7 +312,7 @@ unpack(const Arguments &args) {
             String::New("First argument must be a Buffer")));
     }
 
-    Buffer *buf = ObjectWrap::Unwrap<Buffer>(args[0]->ToObject());
+    Local<Object> buf = args[0]->ToObject();
 
     MsgpackZone mz;
     msgpack_object mo;
