@@ -1,3 +1,16 @@
+----------
+
+This fork allows you to build with an updated version of MsgPack,
+using the latest version 0.5.4 or HEAD (submodule).
+
+Just update the symlink in `deps/msgpack` accordingly.
+
+To build with HEAD (submodule) you will need to bootstrap:
+
+    cd msgpack-dev/cpp && ./bootstrap
+
+----------
+
 `node-msgpack` is an addon for [NodeJS](http://nodejs.org) that provides an
 API for serializing and de-serializing JavaScript objects using the
 [MessagePack](http://msgpack.sourceforge.net) library. The performance of this
