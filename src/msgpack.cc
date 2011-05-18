@@ -234,8 +234,10 @@ msgpack_to_v8(msgpack_object *mo) {
         return a;
     }
 
-    case MSGPACK_OBJECT_RAW:
-        return String::New(mo->via.raw.ptr, mo->via.raw.size);
+    case MSGPACK_OBJECT_RAW: {
+        Local<Buffer> b = Buffer::New((char*)mo->via.raw.ptr, mo->via.raw.size);
+        return b->handle_;
+    }
 
     case MSGPACK_OBJECT_MAP: {
         Local<Object> o = Object::New();
